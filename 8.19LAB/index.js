@@ -16,7 +16,12 @@ function keyupHandler(event) {
 
 function addBtnClick() {
    let newTask = document.getElementById("new-task")
-   addTask(newTask.value)
+   if(newTask.value.trim() === "") {
+      //do nothing
+   }
+   else {
+      addTask(newTask.value)
+   }
    newTask.value = ""
    newTask.focus()
 }
@@ -26,9 +31,14 @@ function addTask(task) {
    li.innerHTML = "<span class=\"task-text\">" + task + "</span><button class=\"done-btn\">&#10006;</button>"
    let ol = document.querySelector("ol")
    ol.appendChild(li)
+
+   let doneButton = document.querySelectorAll("done-btn")
+   let lastButton = doneButton.length - 1
+   doneButton[lastButton].addEventListener("click", removeTask)
 }
 
 function removeTask(event) {
-   // TODO: Complete the function
-    
+   let liParent = event.target.parentNode
+   let olParent = liParent.parentNode
+   olParent.removeChild(liParent)
 }
