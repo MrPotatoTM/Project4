@@ -71,16 +71,16 @@ function checkForWinner() {
 }
 
 function newGame() {
-	clearTimeout()
+	clearTimeout(computerMoveTimeout)
+   let buttons = getGameBoardButtons()
 
-   let button = document.getElementByID("gameBoard").children
-   for (let i = 0; i < 9;i++) {
-      button[i].textContent = ""
-      button[i].removeAttribute("disabled")
+   for (let button of buttons) {
+      button.textContent = ""
+      button.removeAttribute("disabled")
    }
    playerTurn = true
 
-   let turnInfo = document.getElementByID("turnInfo")
+   let turnInfo = document.getElementById("turnInfo")
    turnInfo.textContent = "Your turn"
 }
 
@@ -94,44 +94,43 @@ function boardButtonClicked(button) {
 }
 
 function switchTurn() {
-	checkForWinner()
-   setTimeout(1000)
+	if (checkForWinner() == 1) {
+		computerMoveTimeout = setTimeout(makeComputerMove, 1000)
 
-   playerTurn = !playerTurn
+		playerTurn = !playerTurn
 
-   let turnInfo = document.getElementByID("turnInfo")
-   if(playerTurn == true) {
-      turnInfo.textContent = "Your turn"
-   }
-   else {
-      turnInfo.textContent = "Computer's turn"
-   }
-
-   if (gameStatus > 1) {
+		let turnInfo = document.getElementById("turnInfo")
+		if (playerTurn == true) {
+			turnInfo.textContent = "Your turn"
+		}
+		else {
+			turnInfo.textContent = "Computer's turn"
+		}
+	}
+	else {
       playerTurn = false
-   }
-   if (gameStatus == 2) {
-      turnInfo.textContent = "You win!"
-   }
-   if (gameStatus == 3) {
-      turnInfo.textContent = "Computer wins!"
-   }
-   if (gameStatus == 4) {
-      turnInfo.textContent = "Draw game"
+		if (checkForWinner() == 2) {
+			turnInfo.textContent = "You win!"
+		}
+		else if (checkForWinner() == 3) {
+			turnInfo.textContent = "Computer wins!"
+		}
+		else if (checkForWinner() == 4) {
+			turnInfo.textContent = "Draw game"
+		}
    }
 }
 
 function makeComputerMove() {
-   
-   let buttons = document.getElementByID("gameBoard").children
+   let buttons = getGameBoardButtons()
 	let unselected = []
-	for(let i = 0; i < 9; i++) {
-		if (buttons[i].textContent == "") {
+   for (let button of buttons) {
+		if (button.textContent == "") {
 			unselected.push(i)
 		}
 	}
 	let randomIndex = Math.floor(Math.random() * unselected.length)
-	let randButton = buttons[unselected[randomIndex]]
+   let randButton = buttons[unselected[randomIndex]]
 	randButton.textContent = "O"
 	randButton.classList.add("o")
 	randButton.disabled = true
