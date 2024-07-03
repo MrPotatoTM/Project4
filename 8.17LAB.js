@@ -30,11 +30,11 @@ function fetchQuotes(topic, count) {
    xhr.send()
 }
 
-function responseReceivedHandler() {
-   if (this.response.success == true) {
+function responseReceivedHandler(count) {
+   if (this.status === 200) {
       let html = "<ol>";
-      for (let c = 1; c <= count; c++) {
-         html += "<li>" + this.response.quote + "${c} - " + this.response.source + "</li>";
+      for (quoteItem of this.response) {
+         html += `<li>${quoteItem.quote} - ${quoteItem.source}</li>`;
       }
       html += "</ol>";
 
