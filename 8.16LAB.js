@@ -94,18 +94,16 @@ function boardButtonClicked(button) {
 }
 
 function switchTurn() {
+	playerTurn = !playerTurn
    let status = checkForWinner()
 	if (status == 1) {
-		computerMoveTimeout = setTimeout(makeComputerMove, 1000)
-
-		playerTurn = !playerTurn
-
 		let turnInfo = document.getElementById("turnInfo")
 		if (playerTurn == true) {
 			turnInfo.textContent = "Your turn"
 		}
 		else {
 			turnInfo.textContent = "Computer's turn"
+         computerMoveTimeout = setTimeout(makeComputerMove, 1000)
 		}
 	}
 	else {
