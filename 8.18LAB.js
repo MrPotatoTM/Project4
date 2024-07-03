@@ -5,15 +5,15 @@ window.addEventListener("DOMContentLoaded", function() {
 });
 
 function startAnimation(e) {
-   if(timerId != null) {
-      clearInterval(timerId)
-   }
    // Get mouse coordinates
    let clickX = e.clientX;
    let clickY = e.clientY;  
    
    // TODO: Modify the code below
-   timerId = setInterval(moveImage(clickX, clickY), 10)   
+   if (timerId != null) {
+      clearInterval(timerId)
+   }
+   timerId = setInterval(function(){moveImage(clickX, clickY)}, 10)   
 }
 
 function moveImage(x, y) {
