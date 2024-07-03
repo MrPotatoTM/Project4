@@ -32,16 +32,21 @@ function fetchQuotes(topic, count) {
 
 function responseReceivedHandler(count) {
    if (this.status === 200) {
-      let html = "<ol>";
-      for (quoteItem of this.response) {
-         html += `<li>${quoteItem.quote} - ${quoteItem.source}</li>`;
+      if(this.response.error) {
+         document.querySelector("#quotes").innerHTML = this.response.error
       }
-      html += "</ol>";
+      else {
+         let html = "<ol>";
+         for (quoteItem of this.response) {
+            html += `<li>${quoteItem.quote} - ${quoteItem.source}</li>`;
+         }
+         html += "</ol>";
 
-      document.querySelector("#quotes").innerHTML = html;
+         document.querySelector("#quotes").innerHTML = html;
+      }
    }
    else {
-      document.querySelector("#quotes").innerHTML = this.response.error;
+      document.querySelector("#quotes").innerHTML = "Quote API is unavailable.";
    }
    
 }
