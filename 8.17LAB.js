@@ -23,18 +23,25 @@ function showAnonymousQuotes(count) {
 }
 
 function fetchQuotes(topic, count) {
-   let xhr = new XMLHttpRequest()
-   xhr.responseType = "json"
+   let xhr = new XMLHttpRequest();
    xhr.addEventListener("load", responseReceivedHandler);
-   xhr.open("GET", "https://wp.zybooks.com/quotes.php?topic=love&count=3")
+   xhr.responseType = "json";
+   xhr.open("GET", "https://wp.zybooks.com/quotes.php?topic=" + topic + "&count=" + count);
+   xhr.send()
 }
 
 function responseReceivedHandler() {
-   let html = "<ol>";
-   for (let c = 1; c <= count; c++) {
-      html += "<li>" + this.response.quote + "${c} - " + this.response.source + "</li>";
-   }
-   html += "</ol>";
+   if (this.response.success == true) {
+      let html = "<ol>";
+      for (let c = 1; c <= count; c++) {
+         html += "<li>" + this.response.quote + "${c} - " + this.response.source + "</li>";
+      }
+      html += "</ol>";
 
-   document.querySelector("#quotes").innerHTML = html;
+      document.querySelector("#quotes").innerHTML = html;
+   }
+   else {
+      document.querySelector("#quotes").innerHTML = this.response.error;
+   }
+   
 }
