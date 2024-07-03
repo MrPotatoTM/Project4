@@ -4,11 +4,21 @@ function domLoaded() {
    let addButton = document.getElementById("add-btn")
    addButton.addEventListener("click", addBtnClick)
    
+   let newTask = document.getElementById("new-task")
+   newTask.addEventListener("keyup", keyupHandler)
+}
+
+function keyupHandler(event) {
+   if (event.key == "Enter") {
+      addBtnClick()
+   }
 }
 
 function addBtnClick() {
    let newTask = document.getElementById("new-task")
    addTask(newTask.value)
+   newTask.value = ""
+   newTask.focus()
 }
 
 function addTask(task) {
