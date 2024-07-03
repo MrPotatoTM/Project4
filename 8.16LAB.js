@@ -94,7 +94,8 @@ function boardButtonClicked(button) {
 }
 
 function switchTurn() {
-	if (checkForWinner() == 1) {
+   let status = checkForWinner()
+	if (status == 1) {
 		computerMoveTimeout = setTimeout(makeComputerMove, 1000)
 
 		playerTurn = !playerTurn
@@ -109,13 +110,13 @@ function switchTurn() {
 	}
 	else {
       playerTurn = false
-		if (checkForWinner() == 2) {
+		if (status == 2) {
 			turnInfo.textContent = "You win!"
 		}
-		else if (checkForWinner() == 3) {
+		else if (status == 3) {
 			turnInfo.textContent = "Computer wins!"
 		}
-		else if (checkForWinner() == 4) {
+		else if (status == 4) {
 			turnInfo.textContent = "Draw game"
 		}
    }
@@ -124,8 +125,8 @@ function switchTurn() {
 function makeComputerMove() {
    let buttons = getGameBoardButtons()
 	let unselected = []
-   for (let button of buttons) {
-		if (button.textContent == "") {
+   for (let i=0; i < buttons.length;i++) {
+		if (buttons[i].textContent.trim() === "") {
 			unselected.push(i)
 		}
 	}
