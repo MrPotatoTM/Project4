@@ -72,26 +72,68 @@ function checkForWinner() {
 
 function newGame() {
 	clearTimeout()
+
+   let button = document.getElementByID("gameBoard").children
    for (let i = 0; i < 9;i++) {
-      let button = document.getElementByID("gameBoard").childNodes[i]
-      button.textContent = ""
-      button.removeAttribute("disabled")
-
-      playerTurn = true
-
-      let turnInfo = document.getElementByID("turnInfo")
-      turnInfo.textContent = "Your turn"
+      button[i].textContent = ""
+      button[i].removeAttribute("disabled")
    }
+   playerTurn = true
+
+   let turnInfo = document.getElementByID("turnInfo")
+   turnInfo.textContent = "Your turn"
 }
 
 function boardButtonClicked(button) {
-	// TODO: Complete the function
+	if (playerTurn == true) {
+      button.textContent = "X"
+      button.classList.add("x")
+      button.disabled = true
+      switchTurn()
+   }
 }
 
 function switchTurn() {
-	// TODO: Complete the function
+	checkForWinner()
+   setTimeout(1000)
+
+   playerTurn = !playerTurn
+
+   let turnInfo = document.getElementByID("turnInfo")
+   if(playerTurn == true) {
+      turnInfo.textContent = "Your turn"
+   }
+   else {
+      turnInfo.textContent = "Computer's turn"
+   }
+
+   if (gameStatus > 1) {
+      playerTurn = false
+   }
+   if (gameStatus == 2) {
+      turnInfo.textContent = "You win!"
+   }
+   if (gameStatus == 3) {
+      turnInfo.textContent = "Computer wins!"
+   }
+   if (gameStatus == 4) {
+      turnInfo.textContent = "Draw game"
+   }
 }
 
 function makeComputerMove() {
-	// TODO: Complete the function
+   
+   let buttons = document.getElementByID("gameBoard").children
+	let unselected = []
+	for(let i = 0; i < 9; i++) {
+		if (buttons[i].textContent == "") {
+			unselected.push(i)
+		}
+	}
+	let randomIndex = Math.floor(Math.random() * unselected.length)
+	let randButton = buttons[unselected[randomIndex]]
+	randButton.textContent = "O"
+	randButton.classList.add("o")
+	randButton.disabled = true
+	switchTurn()
 }
