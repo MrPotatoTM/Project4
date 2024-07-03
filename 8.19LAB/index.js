@@ -32,7 +32,7 @@ function addTask(task) {
    let ol = document.querySelector("ol")
    ol.appendChild(li)
 
-   let doneButton = document.querySelectorAll("done-btn")
+   let doneButton = document.querySelectorAll(".done-btn")
    let lastButton = doneButton.length - 1
    doneButton[lastButton].addEventListener("click", removeTask)
 }
